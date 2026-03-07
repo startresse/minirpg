@@ -1,7 +1,10 @@
 module;
 
 #include <Windows.h>
+
 #include <array>
+#include <cassert>
+#include <unordered_map>
 
 export module input;
 
@@ -16,15 +19,19 @@ namespace input
         q,
         COUNT, // TODO find a better way?
     };
-    std::array<unsigned int, static_cast<size_t>(Key::COUNT)> key_codes = { VK_ESCAPE, VK_TAB, VK_SPACE, 'Q'};
-    unsigned int get_keycode(const Key& key)
+    using KeyCode = unsigned int;
+    const std::unordered_map<Key, KeyCode> key_codes
     {
-        return key_codes[static_cast<unsigned int>(key)]; // find a better way that this cast
-    }
+        {Key::esc, VK_ESCAPE},
+        {Key::tab, VK_TAB},
+        {Key::space, VK_SPACE},
+        {Key::q, 'Q'},
+    };
 
     static bool is_currently_pressed(const Key& key)
     {
-        short state = GetKeyState(get_keycode(key));
+        assert(key != Key::COUNT);
+        short state = GetKeyState(key_codes.at(key));
         return state & 0x8000;
     }
 
@@ -45,6 +52,10 @@ namespace input
 
     export void init()
     {
+        // Ensure map has all Key implemented
+        // (Can't static_assert because std::unordered_map can't be constexpr)
+        assert(key_codes.size() == static_cast<size_t>(Key::COUNT));
+
         clear();
     }
 

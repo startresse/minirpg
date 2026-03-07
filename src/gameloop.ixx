@@ -10,6 +10,11 @@ namespace gameloop
 
     bool is_running = true;
 
+    export void init()
+    {
+        input::init();
+    }
+
     static void check_inputs()
     {
         if (input::is_first_pressed(input::Key::q))
