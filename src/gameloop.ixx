@@ -10,9 +10,9 @@ namespace gameloop
 
 bool is_running = true;
 
-void check_inputs()
+static void check_inputs()
 {
-	if (input::check_pressed(0x1B)) // ESC
+	if (input::check_pressed(input::key::q))
 	{
 		is_running = false;
 	}
