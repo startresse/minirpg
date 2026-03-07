@@ -9,18 +9,19 @@ export module input;
 namespace input
 {
 
-using Key = unsigned int;
-export namespace key
-{
-constexpr Key esc = VK_ESCAPE;
-constexpr Key tab = VK_TAB;
-constexpr Key q = 'Q';
-}
+    using Key = unsigned int;
+    export namespace key
+    {
+        constexpr Key esc = VK_ESCAPE;
+        constexpr Key tab = VK_TAB;
+        constexpr Key space = VK_SPACE;
+        constexpr Key q = 'Q';
+    }
 
-export bool check_pressed(Key key)
-{
-    short state = GetKeyState(key);
-    return state & 0x8000;
-}
+    export bool check_pressed(Key key)
+    {
+        short state = GetKeyState(key);
+        return state & 0x8000;
+    }
 
 } // namespace input
