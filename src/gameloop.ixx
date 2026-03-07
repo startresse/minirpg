@@ -12,7 +12,7 @@ namespace gameloop
 
     static void check_inputs()
     {
-        if (input::check_pressed(input::key::q))
+        if (input::is_first_pressed(input::Key::q))
         {
             is_running = false;
         }
@@ -23,6 +23,7 @@ namespace gameloop
         static int loop_id = 0;
         while (is_running)
         {
+            input::update();
             check_inputs();
             printf("Loop %d\n", loop_id++);
         }
