@@ -1,7 +1,9 @@
 module;
 
+// API includes
 #include <Windows.h>
 
+// utility includes
 #include <array>
 #include <cassert>
 #include <unordered_map>
@@ -75,6 +77,10 @@ namespace input
     export bool is_first_pressed(const Key& key)
     {
         return is_pressed_in_current_frame(key) && !is_pressed_in_pred_frame(key);
+    }
+    export bool is_released(const Key& key)
+    {
+        return is_pressed_in_pred_frame(key) && !is_pressed_in_current_frame(key);
     }
 
 } // namespace input

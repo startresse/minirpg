@@ -31,7 +31,7 @@ namespace gameloop
 
     static void process_inputs()
     {
-        if (input::is_first_pressed(input::Key::q))
+        if (input::is_released(input::Key::q))
             is_running = false;
         if (input::is_first_pressed(input::Key::space))
             pause_state::swap_state();
