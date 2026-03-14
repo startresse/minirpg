@@ -13,7 +13,19 @@ export module input;
 // this namespace is an abstraction layer that allows to change the input backend without having to modify game code.
 namespace input
 {
-    export enum class Key
+    export
+    {
+        enum class Key;
+
+        void init();
+        void update();
+
+        bool is_pressed(const Key& key);
+        bool is_first_pressed(const Key& key);
+        bool is_released(const Key& key);
+    }
+
+    enum class Key
     {
         esc,
         tab,
@@ -52,7 +64,7 @@ namespace input
         }
     }
 
-    export void init()
+    void init()
     {
         // Ensure map has all Key implemented
         // (Can't static_assert because std::unordered_map can't be constexpr)
@@ -61,7 +73,7 @@ namespace input
         clear();
     }
 
-    export void update()
+    void update()
     {
         current_array_id = (current_array_id + 1) % 2;
         for (int ikey = 0; ikey < keys_pressed[0].size(); ++ikey)
@@ -70,15 +82,15 @@ namespace input
         }
     }
 
-    export bool is_pressed(const Key& key)
+    bool is_pressed(const Key& key)
     {
         return is_pressed_in_current_frame(key);
     }
-    export bool is_first_pressed(const Key& key)
+    bool is_first_pressed(const Key& key)
     {
         return is_pressed_in_current_frame(key) && !is_pressed_in_pred_frame(key);
     }
-    export bool is_released(const Key& key)
+    bool is_released(const Key& key)
     {
         return is_pressed_in_pred_frame(key) && !is_pressed_in_current_frame(key);
     }

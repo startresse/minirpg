@@ -3,10 +3,17 @@ module;
 #include <iostream>
 
 export module gameloop;
+
 import input;
+import entities;
 
 namespace gameloop
 {
+    export
+    {
+        void init();
+        void run();
+    }
 
     bool is_running = true;
     namespace pause_state
@@ -24,9 +31,10 @@ namespace gameloop
         static void update() { is_trigger_step = false; }
     };
 
-    export void init()
+    void init()
     {
         input::init();
+        entities::init();
     }
 
     static void process_inputs()
@@ -39,7 +47,7 @@ namespace gameloop
             pause_state::trigger_step();
     }
 
-    export void run()
+    void run()
     {
         static int loop_id = 0;
         while (is_running)
