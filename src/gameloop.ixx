@@ -4,11 +4,13 @@ module;
 
 export module gameloop;
 import input;
+import asciirenderer;
 
 namespace gameloop
 {
-
     bool is_running = true;
+    export int loop_id = 0;
+
     namespace pause_state
     {
         bool is_freerun = false;
@@ -26,6 +28,7 @@ namespace gameloop
 
     export void init()
     {
+        asciirenderer::init();
         input::init();
     }
 
@@ -41,7 +44,6 @@ namespace gameloop
 
     export void run()
     {
-        static int loop_id = 0;
         while (is_running)
         {
             input::update();
@@ -49,9 +51,11 @@ namespace gameloop
             if (!pause_state::can_step())
                 continue;
 
+            asciirenderer::update();
+
             pause_state::update();
 
-            printf("Loop %d\n", loop_id++);
+            ++loop_id;
         }
     }
 
