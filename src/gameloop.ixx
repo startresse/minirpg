@@ -16,7 +16,10 @@ namespace gameloop
         bool is_freerun = false;
         bool is_trigger_step = false;
 
-        static bool can_step() { return is_freerun || is_trigger_step; }
+        static bool can_step()
+        {
+            return (is_freerun || is_trigger_step) && asciirenderer::framerate_allow_new_frame();
+        }
         static void swap_state()
         {
             is_freerun = !is_freerun;

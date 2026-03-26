@@ -1,7 +1,8 @@
 module;
 
-#include <iostream>
 #include <Windows.h>
+#include <chrono>
+#include <iostream>
 
 export module asciirenderer;
 
@@ -61,16 +62,35 @@ namespace asciirenderer
         }
     }
 
+    using clock = std::chrono::high_resolution_clock;
+
+    std::optional<float> max_framerate = 144.f;
+    std::chrono::steady_clock::time_point time_point_last_frame;
+
     export void init()
     {
         windows_console::init();
         std::cout << "Game Start" << std::endl;
+        time_point_last_frame = clock::now();
     }
 
     export void update()
     {
         windows_console::clear();
         std::cout << "Loop: " << gameloop::loop_id << std::endl;
+
+        time_point_last_frame = clock::now();
+    }
+
+    export bool framerate_allow_new_frame()
+    {
+        using namespace std::chrono;
+        if (!max_framerate.has_value())
+            return true;
+
+        float framerate = max_framerate.value();
+        const auto min_time_between_frame = round<nanoseconds>(duration<float>{1.f / framerate});
+        return (clock::now() - time_point_last_frame > min_time_between_frame);
     }
 
 }
