@@ -3,18 +3,30 @@ module;
 #include <iostream>
 
 export module gameloop;
+
+import asciirenderer;
+import gamestate;
 import input;
 
 namespace gameloop
 {
+    export
+    {
+        void init();
+        void run();
+    }
 
     bool is_running = true;
+
     namespace pause_state
     {
         bool is_freerun = false;
         bool is_trigger_step = false;
 
-        static bool can_step() { return is_freerun || is_trigger_step; }
+        static bool can_step()
+        {
+            return (is_freerun || is_trigger_step) && asciirenderer::framerate_allow_new_frame();
+        }
         static void swap_state()
         {
             is_freerun = !is_freerun;
@@ -24,8 +36,11 @@ namespace gameloop
         static void update() { is_trigger_step = false; }
     };
 
-    export void init()
+    void init()
     {
+        gamestate::loop_id = 0;
+
+        asciirenderer::init();
         input::init();
     }
 
@@ -39,9 +54,8 @@ namespace gameloop
             pause_state::trigger_step();
     }
 
-    export void run()
+    void run()
     {
-        static int loop_id = 0;
         while (is_running)
         {
             input::update();
@@ -49,9 +63,11 @@ namespace gameloop
             if (!pause_state::can_step())
                 continue;
 
+            asciirenderer::update();
+
             pause_state::update();
 
-            printf("Loop %d\n", loop_id++);
+            ++gamestate::loop_id;
         }
     }
 

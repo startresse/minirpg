@@ -4,8 +4,6 @@ import gameloop;
 
 int main()
 {
-	printf("Game Start\n");
-
 	gameloop::init();
 	gameloop::run();
 

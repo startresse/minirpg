@@ -9,7 +9,7 @@ endif()
 project ("minirpg")
 
 # Add source to this project's executable.
-add_executable (minirpg "src/main.cpp"  "src/gameloop.ixx" "src/input.ixx")
+add_executable (minirpg "src/main.cpp"  "src/gameloop.ixx" "src/input.ixx" "src/asciirenderer.ixx"  "src/gamestate.ixx")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET minirpg PROPERTY CXX_STANDARD 20)
