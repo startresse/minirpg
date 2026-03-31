@@ -6,10 +6,18 @@ module;
 
 export module asciirenderer;
 
-import gameloop;
+import gamestate;
 
 namespace asciirenderer
 {
+    export
+    {
+        void init();
+        void update();
+
+        bool framerate_allow_new_frame();
+    }
+
     namespace windows_console
     {
         // source: https://learn.microsoft.com/en-gb/windows/console/clearing-the-screen
@@ -67,22 +75,27 @@ namespace asciirenderer
     std::optional<float> max_framerate = 144.f;
     std::chrono::steady_clock::time_point time_point_last_frame;
 
-    export void init()
+    void init()
     {
         windows_console::init();
         std::cout << "Game Start" << std::endl;
         time_point_last_frame = clock::now();
     }
 
-    export void update()
+    static void dummy_print()
+    {
+        std::cout << "Loop: " << gamestate::loop_id << std::endl;
+    }
+
+    void update()
     {
         windows_console::clear();
-        std::cout << "Loop: " << gameloop::loop_id << std::endl;
+        dummy_print();
 
         time_point_last_frame = clock::now();
     }
 
-    export bool framerate_allow_new_frame()
+    bool framerate_allow_new_frame()
     {
         using namespace std::chrono;
         if (!max_framerate.has_value())

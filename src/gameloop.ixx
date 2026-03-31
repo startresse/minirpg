@@ -3,13 +3,20 @@ module;
 #include <iostream>
 
 export module gameloop;
-import input;
+
 import asciirenderer;
+import gamestate;
+import input;
 
 namespace gameloop
 {
+    export
+    {
+        void init();
+        void run();
+    }
+
     bool is_running = true;
-    export int loop_id = 0;
 
     namespace pause_state
     {
@@ -29,8 +36,10 @@ namespace gameloop
         static void update() { is_trigger_step = false; }
     };
 
-    export void init()
+    void init()
     {
+        gamestate::loop_id = 0;
+
         asciirenderer::init();
         input::init();
     }
@@ -45,7 +54,7 @@ namespace gameloop
             pause_state::trigger_step();
     }
 
-    export void run()
+    void run()
     {
         while (is_running)
         {
@@ -58,8 +67,9 @@ namespace gameloop
 
             pause_state::update();
 
-            ++loop_id;
+            ++gamestate::loop_id;
         }
     }
+
 
 } // namespace gameloop
