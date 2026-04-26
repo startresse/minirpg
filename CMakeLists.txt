@@ -27,6 +27,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
 	"src/input.ixx"
 	"src/asciirenderer.ixx"
 	"src/gamestate.ixx"
+	"src/ui.ixx"
 )
 
 target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_23)

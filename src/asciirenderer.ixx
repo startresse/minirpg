@@ -6,8 +6,6 @@ module;
 
 export module asciirenderer;
 
-import gamestate;
-
 namespace asciirenderer
 {
     export
@@ -78,20 +76,12 @@ namespace asciirenderer
     void init()
     {
         windows_console::init();
-        std::cout << "Game Start" << std::endl;
         time_point_last_frame = clock::now();
-    }
-
-    static void dummy_print()
-    {
-        std::cout << "Loop: " << gamestate::loop_id << std::endl;
     }
 
     void update()
     {
         windows_console::clear();
-        dummy_print();
-
         time_point_last_frame = clock::now();
     }
 
