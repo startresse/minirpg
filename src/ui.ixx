@@ -21,9 +21,13 @@ namespace ui
     static void display_progress_bar(float progress)
     {
         assert(0.f <= progress && progress <= 1.f);
-        const int nb_filled = width / int(progress);
-        const int nb_unfilled = width - nb_filled;
-        std::cout << "[" << std::string('=', nb_filled) << std::string(' ', nb_unfilled) << "]" << std::endl;
+        const int nb_filled = int(progress * width);
+        std::cout << "[";
+        for (int i = 0; i < nb_filled; ++i)
+            std::cout << "=";
+        for (int i = 0; i < width - nb_filled; ++i)
+            std::cout << "-";
+        std::cout << "]" << std::endl;
     }
 
     void init()
@@ -31,7 +35,7 @@ namespace ui
         std::cout << "Game Start" << std::endl;
     }
 
-    void display_frame()
+    void print_elapsed_time()
     {
         const auto h = std::chrono::duration_cast<std::chrono::hours>(gamestate::total_elapsed_time);
         const auto m = std::chrono::duration_cast<std::chrono::minutes>(gamestate::total_elapsed_time - h);
@@ -39,5 +43,19 @@ namespace ui
         const auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(gamestate::total_elapsed_time - h - m - s);
         std::cout << "Loop: " << gamestate::loop_id << std::endl;
         std::cout << "Total Elapsed Time:" << h << " " << m << " " << s << " " << ms << std::endl;
+    }
+
+    void display_frame()
+    {
+        print_elapsed_time();
+        auto elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(gamestate::total_elapsed_time);
+        float progress = static_cast<float>(elapsed_seconds.count()) / std::chrono::milliseconds(16000).count();
+        display_progress_bar(fmin(1.f, progress * 4));
+        display_progress_bar(fmin(1.f, progress * 2));
+        display_progress_bar(fmin(1.f, progress    ));
+        display_progress_bar(fmin(1.f, progress / 2));
+        display_progress_bar(fmin(1.f, progress / 4));
+        for (int i = 0; i < 10; ++i)
+            std::cout << std::endl;
     }
 }
