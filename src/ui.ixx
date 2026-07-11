@@ -23,7 +23,7 @@ namespace ui
         assert(0.f <= progress && progress <= 1.f);
         const int nb_filled = int(progress * width);
         std::string progressbar_filled(nb_filled, '=');
-        std::string progressbar_empty(width - nb_filled, '-');
+        std::string progressbar_empty(width - nb_filled - 1, '-');
         std::cout << "[" << progressbar_filled << progressbar_empty << "]" << std::endl;
     }
 
@@ -47,11 +47,11 @@ namespace ui
         print_elapsed_time();
         auto elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(gamestate::total_elapsed_time);
         float progress = static_cast<float>(elapsed_seconds.count()) / std::chrono::milliseconds(16000).count();
-        display_progress_bar(fmin(1.f, progress * 4));
-        display_progress_bar(fmin(1.f, progress * 2));
-        display_progress_bar(fmin(1.f, progress    ));
-        display_progress_bar(fmin(1.f, progress / 2));
-        display_progress_bar(fmin(1.f, progress / 4));
+        display_progress_bar(fmod(progress * 3.928, 1.f));
+        display_progress_bar(fmod(progress * 2.121, 1.f));
+        display_progress_bar(fmod(progress    , 1.f));
+        display_progress_bar(fmod(progress / 1.98, 1.f));
+        display_progress_bar(fmod(progress / 4.23, 1.f));
         for (int i = 0; i < 10; ++i)
             std::cout << std::endl;
     }
