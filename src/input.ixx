@@ -92,4 +92,4 @@ namespace input
         return is_pressed_in_pred_frame(key) && !is_pressed_in_current_frame(key);
     }
 
-} // namespace input
+}
