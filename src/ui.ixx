@@ -22,12 +22,9 @@ namespace ui
     {
         assert(0.f <= progress && progress <= 1.f);
         const int nb_filled = int(progress * width);
-        std::cout << "[";
-        for (int i = 0; i < nb_filled; ++i)
-            std::cout << "=";
-        for (int i = 0; i < width - nb_filled; ++i)
-            std::cout << "-";
-        std::cout << "]" << std::endl;
+        std::string progressbar_filled(nb_filled, '=');
+        std::string progressbar_empty(width - nb_filled, '-');
+        std::cout << "[" << progressbar_filled << progressbar_empty << "]" << std::endl;
     }
 
     void init()

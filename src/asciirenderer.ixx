@@ -70,7 +70,7 @@ namespace asciirenderer
 
     using clock = std::chrono::high_resolution_clock;
 
-    std::optional<float> max_framerate = 144.f;
+    std::optional<float> max_framerate = 24.f;
     std::chrono::steady_clock::time_point time_point_last_frame;
 
     void init()
